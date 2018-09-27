@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>华联超市管理系统</title>
+    <!-- 引入组件样式 -->
+    <link rel="stylesheet" href="./libs/elementui/styles/elementui.min.css">
+    <!-- 引入自定义的样式 -->
+    <link rel="stylesheet" href="./styles/index.css">
+
+    <!-- 引入vue.min.js -->
+    <script src="./libs/vue/vue.min.js"></script>
+    <!-- 引入elementui.min.js -->
+    <script src="./libs/elementui/scripts/elementui.min.js"></script>
+</head>
+
+<body>
+    <!-- 准备dom -->
+    <div id="app">
+        <!-- 布局容器 -->
+        <el-container>
+            <!-- 左侧导航 -->
+            <el-aside width="230px">
+                <!-- 左侧导航上方的文字 -->
+                <div class="nav-text">
+                    <h3>华联超市管理系统</h3>
+                    <p>您好，admin</p>
+                    <p>
+                        <a href="">管理首页</a> |
+                        <a href="">退出系统</a>
+                    </p>
+                </div>
+                <!-- 左侧导航条 -->
+                <el-menu :unique-opened="true">
+                    <!-- 导航一 -->
+                    <el-submenu index="1">
+                        <template slot="title">
+                            <i class="el-icon-menu"></i>
+                            <span>商品管理</span>
+                        </template>
+                        <el-menu-item-group>
+                            <el-menu-item index="1-1">商品管理</el-menu-item>
+                            <el-menu-item index="1-2">添加商品</el-menu-item>
+                        </el-menu-item-group>
+                    </el-submenu>
+                    <!-- 导航二 -->
+                    <el-submenu index="2">
+                        <template slot="title">
+                            <i class="el-icon-goods"></i>
+                            <span>进货管理</span>
+                        </template>
+                        <el-menu-item-group>
+                            <el-menu-item index="2-1">库存管理</el-menu-item>
+                            <el-menu-item index="2-2">添加库存</el-menu-item>
+                        </el-menu-item-group>
+                    </el-submenu>
+                    <!-- 导航三 -->
+                    <el-submenu index="3">
+                        <template slot="title">
+                            <i class="el-icon-sold-out"></i>
+                            <span>出货管理</span>
+                        </template>
+                        <el-menu-item-group>
+                            <el-menu-item index="3-1">销售列表</el-menu-item>
+                            <el-menu-item index="3-2">商品出库</el-menu-item>
+                            <el-menu-item index="3-2">商品退货</el-menu-item>
+                        </el-menu-item-group>
+                    </el-submenu>
+                    <!-- 导航四 -->
+                    <el-submenu index="4">
+                        <template slot="title">
+                            <i class="el-icon-tickets"></i>
+                            <span>账号管理</span>
+                        </template>
+                        <el-menu-item-group>
+                            <el-menu-item index="4-1">账号管理</el-menu-item>
+                            <el-menu-item index="4-2">添加账号</el-menu-item>
+                            <el-menu-item index="4-2">密码修改</el-menu-item>
+                        </el-menu-item-group>
+                    </el-submenu>
+                    <!-- 导航五 -->
+                    <el-submenu index="5">
+                        <template slot="title">
+                            <i class="el-icon-setting"></i>
+                            <span>系统管理</span>
+                        </template>
+                        <el-menu-item-group>
+                            <el-menu-item index="5-1">系统信息</el-menu-item>
+                            <el-menu-item index="5-2">系统配置</el-menu-item>
+                            <el-menu-item index="5-2">添加管理组</el-menu-item>
+                        </el-menu-item-group>
+                    </el-submenu>
+                </el-menu>
+            </el-aside>
+            <!-- 右侧内容 -->
+            <el-container>
+                <!-- 右侧头部 -->
+                <el-header>
+                    <h2>欢迎您 admin</h2>
+                    <p>修改账号密码</p>
+                </el-header>
+
+                <!-- 右侧主体 -->
+                <el-main>
+                    <!-- 卡片布局 -->
+                    <el-card class="box-card">
+                        <div slot="header" class="clearfix">
+                            <span>修改账号密码</span>
+                        </div>
+                        <div class="text item">
+                            <!-- 注册账户信息 -->
+                            <el-form :model="ruleForm" class="add-users-form" status-icon :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+                                <el-form-item label="原密码" prop="previouspwd">
+                                    <el-input type="text" v-model="ruleForm.username" autocomplete="off"></el-input>
+                                </el-form-item>
+                                <el-form-item label="新密码" prop="newpwd">
+                                    <el-input type="text" v-model="ruleForm.password" autocomplete="off"></el-input>
+                                </el-form-item>
+                                <el-form-item label="新密码" prop="confirmnewpwd">
+                                    <el-input type="text" v-model.number="ruleForm.confirmpassword"></el-input>
+                                </el-form-item>                             
+                                <el-form-item>
+                                    <el-button type="primary" @click="submitForm('ruleForm')">修改</el-button>
+                                    <el-button @click="resetForm('ruleForm')">重置</el-button>
+                                </el-form-item>
+                            </el-form>
+
+                        </div>
+                    </el-card>
+                </el-main>
+
+                <!-- 右侧尾部 -->
+                <el-footer>
+                    &copy;Copyright 2018 华联超市管理系统
+                </el-footer>
+            </el-container>
+        </el-container>
+    </div>
+
+    <script>
+        // 创建vue实例
+        new Vue({
+            el: '#app',
+            data() {
+                // 自定义验证两次密码的一致性
+                let checkPassword = (rule, value, callback) => {
+                    // 如果确认密码为空，则显示提示信息
+                    if (value === '') {
+                        callback(new Error('请再次输入密码'));
+                    } else if (value != this.ruleForm.password) {  // 如果两次输入的密码不一致，则显示提示信息
+                        callback(new Error('两次输入的密码不一致'));
+                    } else {
+                        callback();    //  输入正确
+                    }
+                }
+                return {
+                    ruleForm: {
+                        previouspwd: '',
+                        newpwd: '',
+                        confirmnewpwd: ''
+                    },
+                    rules: {
+                        previouspwd: [
+                            { required: true, message: '请输入原来的密码！', trigger: 'blur' },  // 非空验证
+                        ],
+                        newpwd: [
+                            { required: true, message: '请输入新密码！', trigger: 'blur' },  // 非空验证
+                            { min: 6, max: 18, message: '密码必须为6-18位', trigger: 'blur' }    // 密码长度的验证
+
+                        ],
+                        confirmnewpwd: [
+                            { required: true, validator: checkPassword, trigger: 'blur' }
+                        ]
+                       
+                    }
+                };
+            },
+            methods: {
+                submitForm(formName) {
+                    this.$refs[formName].validate((valid) => {
+                        if (valid) {    // 如果valid为true，则表示前端验证通过，可以向后台发送数据
+                            alert('前端验证通过!' + '用户名：' + this.ruleForm.username + '密码为：' + this.ruleForm.password);
+                        } else {
+                            console.log('error submit!!');
+                            return false;
+                        }
+                    });
+                },
+                resetForm(formName) {
+                    this.$refs[formName].resetFields();
+                }
+            }
+        })
+
+
+
+    </script>
+</body>
+
+</html>

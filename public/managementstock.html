@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>华联超市管理系统</title>
+    <!-- 引入组件样式 -->
+    <link rel="stylesheet" href="./libs/elementui/styles/elementui.min.css">
+    <!-- 引入自定义的样式 -->
+    <link rel="stylesheet" href="./styles/index.css">
+
+    <!-- 引入vue.min.js -->
+    <script src="./libs/vue/vue.min.js"></script>
+    <!-- 引入elementui.min.js -->
+    <script src="./libs/elementui/scripts/elementui.min.js"></script>
+</head>
+
+<body>
+    <!-- 准备dom -->
+    <div id="app">
+        <!-- 布局容器 -->
+        <el-container>
+            <!-- 右侧内容 -->
+            <el-container>
+                <!-- 右侧头部 -->
+                <el-header>
+                    <h2>欢迎您 admin</h2>
+                    <p>查看和管理商品库存</p>
+                </el-header>
+
+                <!-- 右侧主体 -->
+                <el-main>
+                    <!-- 卡片布局 -->
+                    <el-card class="box-card">
+                        <div slot="header" class="clearfix">
+                            <span>库存管理</span>
+                        </div>
+                        <div class="text item">
+                            <!-- 选择器 -->
+                            <el-select v-model="value" placeholder="请选择">
+                                <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
+                                </el-option>
+                            </el-select>
+
+                            <!-- 表单 -->
+                            <el-table :data="tableData" stripe style="width: 100%" class="managoods">
+                                <el-table-column prop="barcode" label="商品条形码">
+                                </el-table-column>
+                                <el-table-column prop="goodsname" label="商品名称">
+                                </el-table-column>
+                                <el-table-column prop="buyingprice" label="进价（元）">
+                                </el-table-column>
+                                <el-table-column prop="store" label="入存">
+                                </el-table-column>
+                                <el-table-column prop="stock" label="库存">
+                                </el-table-column>
+                                <el-table-column prop="sold" label="已售">
+                                </el-table-column>
+                                <el-table-column label="管理">
+                                    <template slot-scope="scope">
+                                        <el-button size="mini" type="success" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+                                        <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+                                    </template>
+                                </el-table-column>
+                            </el-table>
+                            <!-- 分页 -->
+                            <el-pagination prev-text="上一页" next-text="下一页" background="true" small layout="prev, pager, next" :total="30">
+                            </el-pagination>
+                        </div>
+                    </el-card>
+                </el-main>
+
+                <!-- 右侧尾部 -->
+                <el-footer>
+                    &copy;Copyright 2018 华联超市管理系统
+                </el-footer>
+            </el-container>
+        </el-container>
+    </div>
+
+    <script>
+        // 创建vue实例
+        new Vue({
+            el: '#app',
+            data() {
+                return {
+                    options: [{
+                        value: '选项1',
+                        label: '黄金糕'
+                    }, {
+                        value: '选项2',
+                        label: '双皮奶'
+                    }],
+                    value: '',
+                    tableData: [{
+                        barcode: '10001',
+                        goodsname: '抹茶蛋糕',
+                        buyingprice: '100',
+                        store: '10',
+                        stock: '3',
+                        sold: '200'
+                    }]
+                }
+            },
+            methods: {
+                handleEdit(index, row) {
+                    console.log(index, row);
+                },
+                handleDelete(index, row) {
+                    console.log(index, row);
+                }
+            }
+        })
+
+
+
+    </script>
+</body>
+
+</html>

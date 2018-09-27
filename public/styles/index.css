@@ -1,0 +1,190 @@
+a{
+  color: #fff;
+  text-decoration: none;
+}
+
+/* 布局容器的样式 */
+.el-header, .el-footer {
+    color: #333;
+  }
+  
+  .el-aside {
+      /* 给左侧添加背景图片 */
+    background-image: url('../images/left_bg.png');
+    color: #fff;
+    text-align: right;
+  }
+  
+  .el-main {
+    color: #333;
+  }
+  /* 卡片样式 */
+  .text {
+    font-size: 14px;
+  }
+
+  .item {
+    margin-bottom: 18px;
+  }
+
+  .clearfix:before,
+  .clearfix:after {
+    display: table;
+    content: "";
+  }
+  .clearfix:after {
+    clear: both
+  }
+
+  /* .box-card {
+    width: 480px;
+  } */
+  /* 左右表单布局样式 */
+  .el-row {
+    margin-bottom: 20px;
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+  .el-col {
+    border-radius: 4px;
+  }
+  .bg-purple-dark {
+    background: #99a9bf;
+  }
+  .bg-purple {
+    background: #d3dce6;
+  }
+  .bg-purple-light {
+    background: #e5e9f2;
+  }
+  .grid-content {
+    border-radius: 4px;
+    min-height: 36px;
+  }
+  .row-bg {
+    padding: 10px 0;
+    background-color: #f9fafc;
+  }
+  /* 布局容器的自定义样式 */
+  /* 去掉浏览器的默认样式，让布局铺满整个页面 */
+  html,body,#app{
+      padding: 0;
+      margin: 0;
+      height: 100%;
+  }
+  .el-container{
+      height: 100%;
+  }
+  /* 左侧导航的上方的文字调整 */
+  .el-aside .nav-text{
+    padding-right: 26px;
+    padding-top:20px;
+  }
+  .el-aside .nav-text p {
+    font-size: 12px;
+}
+  .el-aside .nav-text p a{
+      color:#fff;
+      text-decoration: none;
+      font-size: 14px;
+  }
+/* 左侧导航条调整 */
+  .el-menu{
+      border:none;
+      background-color: transparent;
+      color: #fff;
+  }
+  .el-submenu{
+    background-color: transparent;
+    color: #fff;
+    margin-top:10px;
+  }
+  /* 调整文字的高度 */
+.el-submenu .el-submenu__title{
+    color:#fff;
+    padding-right: 50px;
+    margin-left:28px;
+    border-radius: 8px 0 0 8px;
+    height: 33px;
+    line-height: 33px;
+    /* 为每一个导航条添加背景图片 */
+    background-image: url('../images/menu_bg.png');
+}
+/* 将图标改为白色 */
+.el-submenu .el-submenu__title i{
+   color:#fff;
+}
+/* 去掉导航条与下拉列表之间的间隙 */
+.el-menu-item-group__title{
+    padding: 0;
+}
+/* 更改下拉的选项的宽度 */
+.el-menu-item-group .el-menu-item{
+    color: #fff;
+    height: 33px;
+    line-height: 33px;
+}
+.el-menu-item-group .el-menu-item.is-active {
+    background-color:transparent;
+    color: greenyellow;
+}
+.el-menu-item-group .el-menu-item:hover {
+    background-color: transparent;
+    color: #ccc;
+}
+
+/* 右侧头部 */
+.el-header{
+    height: 100px!important;
+    padding: 20px;
+}
+.el-header h2{
+    padding: 0;
+    margin: 0;
+    padding-bottom: 5px;
+}
+.el-header p{
+    padding: 0;
+    margin: 0;
+}
+
+/* 卡片自定义样式 */
+.el-card .el-card__header{
+    background-color: #f1f1f1;
+    font-size:16px;
+    font-weight: bold;
+    padding: 10px;  
+}
+/* 警告框 */
+.el-card .el-card__body .el-alert{
+    margin-bottom: 10px;
+}
+
+/* 右边尾部 */
+.el-footer{
+  border-top: 1px solid #ccc;
+  font-size: 12px;
+  padding-top: 20px;
+}
+
+/* 添加账户 */
+.add-users-form{
+  width: 300px;
+}
+.add-users-form .el-form-item .el-input input{
+  height: 30px;
+}
+
+/* 商品管理 */
+/* 调整删除操作按钮的排列 */
+.managoods .el-table_1_column_10  .cell button{
+  padding:4px;
+}
+/* 缩减添加商品中的输入框长度 */
+.addgoods {
+  width: 400px;
+}
+.addgoods .el-form-item__content .el-input input{
+  height: 30px;
+}

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <!-- 引入组件样式 -->
+    <link rel="stylesheet" href="./libs/elementui/styles/elementui.min.css">
+    <!-- 引入自定义的样式 -->
+    <link rel="stylesheet" href="./styles/index.css">
+
+    <!-- 引入vue.min.js -->
+    <script src="./libs/vue/vue.min.js"></script>
+    <!-- 引入elementui.min.js -->
+    <script src="./libs/elementui/scripts/elementui.min.js"></script>
+</head>
+
+<body>
+    <!-- 准备dom -->
+    <div id="app">
+        <!-- 右侧内容 -->
+        <el-container>
+            <!-- 右侧头部 -->
+            <el-header>
+                <h2>欢迎您 admin</h2>
+                <p>查看详细的系统信息</p>
+            </el-header>
+
+            <!-- 右侧主体 -->
+            <el-main>
+                <!-- 卡片布局 -->
+                <el-card class="box-card">
+                    <div slot="header" class="clearfix">
+                        <span>系统信息</span>
+                    </div>
+                    <div class="text item">
+                        <!-- 警告信息提示 -->
+                        <el-alert title="成功提示的文案" type="success">
+                        </el-alert>
+                        <el-alert title="消息提示的文案" type="info">
+                        </el-alert>
+                        <!-- 左右两个表单 -->
+                        <el-row :gutter="16">
+                            <el-col :span="12">
+                                <div class="grid-content bg-purple">
+                                    <el-card class="box-card">
+                                        <div slot="header" class="clearfix">
+                                            <span>销售排行</span>
+                                        </div>
+                                        <div class="text item">
+                                            <!-- 表格 -->
+                                            <el-table :data="tableData" stripe style="width: 100%">
+                                                <el-table-column prop="goodsname" label="商品名称">
+                                                </el-table-column>
+                                                <el-table-column prop="sales" label="销量">
+                                                </el-table-column>
+                                            </el-table>
+                                        </div>
+                                    </el-card>
+                                </div>
+                            </el-col>
+                            <el-col :span="12">
+                                <div class="grid-content bg-purple-light">
+                                    <el-card class="box-card">
+                                        <div slot="header" class="clearfix">
+                                            <span>缺货的商品</span>
+                                        </div>
+                                        <div class="text item">
+                                            <!-- 表格 -->
+                                            <el-table :data="tableData" stripe style="width: 100%">
+                                                <el-table-column prop="goodsname2" label="商品名称">
+                                                </el-table-column>
+                                                <el-table-column prop="sales2" label="库存">
+                                                </el-table-column>
+                                                <el-table-column prop="operate" label="操作">
+                                                </el-table-column>
+                                            </el-table>
+                                        </div>
+                                    </el-card>
+                                </div>
+                            </el-col>
+                        </el-row>
+                    </div>
+                </el-card>
+            </el-main>
+
+            <!-- 右侧尾部 -->
+            <el-footer>
+                &copy;Copyright 2018 华联超市管理系统
+            </el-footer>
+        </el-container>
+    </div>
+
+    <script>
+        // 创建vue实例
+        new Vue({
+            el: '#app',
+            data() {
+                return {
+                    tableData: [{
+                        goodsname: '海飞丝去屑洗发水',
+                        goodsname2: '沐浴露',
+                        sales: '20,000',
+                        sales2: '10,000',
+                        operate: '入库'
+                    },
+                    {
+                        goodsname: '海飞丝去屑洗发水',
+                        sales: '20,000',
+                    },
+                    {
+                        goodsname: '海飞丝去屑洗发水',
+                        sales: '20,000',
+                    },
+                    {
+                        goodsname: '海飞丝去屑洗发水',
+                        sales: '20,000',
+                    }]
+                }
+            }
+        })
+
+
+
+    </script>
+</body>
+
+</html>

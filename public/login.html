@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>后台登录页面</title>
+    <!-- 引入组件样式 -->
+    <link rel="stylesheet" href="./libs/elementui/styles/elementui.min.css">
+    <!-- 引入自定义的样式 -->
+    <link rel="stylesheet" href="./styles/login.css">
+
+    <!-- 引入vue.min.js -->
+    <script src="./libs/vue/vue.min.js"></script>
+    <!-- 引入elementui.min.js -->
+    <script src="./libs/elementui/scripts/elementui.min.js"></script>
+</head>
+
+<body>
+    <!-- 准备dom -->
+    <div id="app">
+        <div class="login-form">
+            <h3 class="title">
+                <i class="el-icon-star-on"></i>
+                后台登录系统
+            </h3>
+            <!-- 登录表单 -->
+            <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+                <el-form-item label="用户名" prop="username">
+                    <el-input type="text" v-model="ruleForm.username" autocomplete="off"></el-input>
+                </el-form-item>
+                <el-form-item label="密&emsp;码" prop="password">
+                    <el-input type="text" v-model="ruleForm.password" autocomplete="off"></el-input>
+                </el-form-item>
+                <el-form-item label="确认密码" prop="confirmpassword">
+                    <el-input type="text" v-model.number="ruleForm.confirmpassword"></el-input>
+                </el-form-item>
+                <el-form-item>
+                    <el-button type="primary" @click="submitForm('ruleForm')">登录</el-button>
+                    <el-button @click="resetForm('ruleForm')">重置</el-button>
+                </el-form-item>
+            </el-form>
+        </div>
+    </div>
+
+    <script>
+        // 创建vue实例
+        new Vue({
+            el: '#app',
+            data() {
+                // 自定义验证两次密码的一致性
+                let checkPassword = (rule,value,callback) => {
+                    // 如果确认密码为空，则显示提示信息
+                    if(value === ''){
+                        callback(new Error('请再次输入密码'));
+                    }else if(value != this.ruleForm.password){  // 如果两次输入的密码不一致，则显示提示信息
+                        callback(new Error('两次输入的密码不一致'));
+                    }else{
+                        callback();    //  输入正确
+                    }
+                }
+                return {
+                    ruleForm: {
+                        username: '',
+                        password: '',
+                        confirmpassword: ''
+                    },
+                    rules: {
+                        username: [
+                            { required:true,message:'请输入用户名！',trigger:'blur' },  // 非空验证
+                            {min:5,max:16,message:'字符长度必须为5-16位',trigger:'blur'}    // 字符长度的验证
+                        ],
+                        password: [
+                            { required:true,message:'请输入密码！',trigger:'blur' },  // 非空验证
+                            {min:6,max:18,message:'密码必须为6-18位',trigger:'blur'}    // 密码长度的验证
+                            
+                        ],
+                        confirmpassword: [
+                            { required:true,validator: checkPassword, trigger: 'blur' }
+                        ]
+                    }
+                };
+            },
+            methods: {
+                submitForm(formName) {
+                    this.$refs[formName].validate((valid) => {
+                        if (valid) {    // 如果valid为true，则表示前端验证通过，可以向后台发送数据
+                            alert('前端验证通过!'+'用户名：' + this.ruleForm.username + '密码为：' + this.ruleForm.password);
+                        } else {
+                            console.log('error submit!!');
+                            return false;
+                        }
+                    });
+                },
+                resetForm(formName) {
+                    this.$refs[formName].resetFields();
+                }
+            }
+        })
+
+
+
+    </script>
+</body>
+
+</html>

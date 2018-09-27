@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>华联超市管理系统</title>
+    <!-- 引入jquery.js -->
+    <script src="./libs/jquery/jquery.min.js"></script>
+    <!-- 引入组件样式 -->
+    <link rel="stylesheet" href="./libs/elementui/styles/elementui.min.css">
+    <!-- 引入自定义的样式 -->
+    <link rel="stylesheet" href="./styles/index.css">
+
+    <!-- 引入vue.min.js -->
+    <script src="./libs/vue/vue.min.js"></script>
+    <!-- 引入elementui.min.js -->
+    <script src="./libs/elementui/scripts/elementui.min.js"></script>
+</head>
+
+<body>
+    <!-- 准备dom -->
+    <div id="app">
+        <!-- 布局容器 -->
+        <el-container>
+            <!-- 右侧内容 -->
+            <el-container>
+                <!-- 右侧头部 -->
+                <el-header>
+                    <h2>欢迎您 admin</h2>
+                    <p>1、您可以在这里添加新的商品或者编辑已有的商品。2、新添加商品的时候可以同时进行入库（入库必须有数量和进价）！3、带*的为必填</p>
+                </el-header>
+
+                <!-- 右侧主体 -->
+                <el-main>
+                    <!-- 卡片布局 -->
+                    <el-card class="box-card">
+                        <div slot="header" class="clearfix">
+                            <span>添加商品</span>
+                        </div>
+                        <div class="text item">
+                            <!-- 添加商品表单 -->
+                            <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm addgoods">
+                                <el-form-item label="所属分类" prop="classify">
+                                    <el-select v-model="ruleForm.classify" placeholder="请选择活动区域">
+                                        <el-option label="区域一" value="shanghai"></el-option>
+                                        <el-option label="区域二" value="beijing"></el-option>
+                                    </el-select>
+                                </el-form-item>
+                                <el-form-item label="商品名称" prop="goodsname">
+                                    <el-input v-model="ruleForm.goodsname"></el-input>
+                                </el-form-item>
+                                <el-form-item label="商品售价" prop="goodsprice">
+                                    <el-input v-model="ruleForm.goodsprice"></el-input>
+                                </el-form-item>
+                                <el-form-item label="市场价" prop="marketprice">
+                                    <el-input v-model="ruleForm.marketprice"></el-input>
+                                </el-form-item>
+                                <el-form-item label="商品进价" prop="buyingprice">
+                                    <el-input v-model="ruleForm.buyingprice"></el-input>
+                                </el-form-item>
+                                <el-form-item label="入库数量" prop="stocknum">
+                                    <el-input v-model="ruleForm.stocknum"></el-input>
+                                </el-form-item>
+                                <el-form-item label="商品重量" prop="goodsweight">
+                                    <el-input v-model="ruleForm.goodsweight"></el-input>
+                                </el-form-item>
+                                <el-form-item label="商品单位" prop="goodsunit">
+                                    <el-input v-model="ruleForm.goodsunit"></el-input>
+                                </el-form-item>
+                                <el-form-item label="会员优惠" prop="memberpreference">
+                                    <el-radio-group v-model="ruleForm.memberpreference">
+                                        <el-radio label="享受"></el-radio>
+                                        <el-radio label="不享受"></el-radio>
+                                    </el-radio-group>
+                                </el-form-item>
+                                <el-form-item label="是否促销" prop="isSale">
+                                    <el-radio-group v-model="ruleForm.isSale">
+                                        <el-radio label="启用"></el-radio>
+                                        <el-radio label="禁用"></el-radio>
+                                    </el-radio-group>
+                                </el-form-item>
+                                <el-form-item label="商品简介" prop="desc">
+                                    <el-input type="textarea" v-model="ruleForm.desc"></el-input>
+                                </el-form-item>
+                                <el-form-item>
+                                    <el-button type="primary" @click="submitForm('ruleForm')">添加</el-button>
+                                    <el-button @click="resetForm('ruleForm')">重置</el-button>
+                                </el-form-item>
+                            </el-form>
+                        </div>
+                    </el-card>
+                </el-main>
+
+                <!-- 右侧尾部 -->
+                <el-footer>
+                    &copy;Copyright 2018 华联超市管理系统
+                </el-footer>
+            </el-container>
+        </el-container>
+    </div>
+
+    <script>
+        // 创建vue实例
+        new Vue({
+            el: '#app',
+            data() {
+                return {
+                    ruleForm: {
+                        classify: '',
+                        goodsname: '',
+                        goodsprice: '',
+                        marketprice: '',
+                        buyingprice: '',
+                        stocknum: '' ,
+                        goodsweight: '',
+                        goodsunit: '',
+                        memberpreference:'',
+                        isSale:'',
+                        desc:''
+
+                    },
+                    rules: {
+                        classify: [
+                            { required: true, message: '请选择活动区域', trigger: 'change' }
+                        ],
+                        goodsname: [
+                            { required: true, message: '请输入商品名称', trigger: 'blur' },
+                            { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+                        ],
+                        goodsprice:[
+                            {required:true,message:'请输入商品的售价',trigger:'blur'}
+                        ],
+                        marketprice: [
+                            {message:'默认市场价为售价的1.2倍',trigger:'blur'}
+                        ],
+                        
+                        memberpreference: [
+                            { required: true, message: '请选择活动资源', trigger: 'change' }
+                        ],
+                        isSale: [
+                            { required: true, message: '请选择活动资源', trigger: 'change' }
+                        ],
+                        desc: [
+                            { required: true, message: '请填写活动形式', trigger: 'blur' }
+                        ]
+                    }
+                };
+            },
+            methods: {
+                submitForm(formName) {
+                    this.$refs[formName].validate((valid) => {
+                        if (valid) {    // 如果valid为true，则表示通过前端的验证，此时发送ajax，通过post方式，传数据给后台
+                            // 发送ajax
+                            // 传递给后台的数据
+                            const params = {
+                                classify:this.ruleForm.classify,
+                                goodsname:this.ruleForm.goodsname,
+                                goodsprice:this.ruleForm.goodsprice,
+                                marketprice: this.ruleForm.marketprice,
+                                buyingprice: this.ruleForm.buyingprice,
+                                stocknum: this.ruleForm.stocknum,
+                                goodsweight: this.ruleForm.goodsweight,
+                                goodsunit: this.ruleForm.goodsunit,
+                                memberpreference:this.ruleForm.memberpreference,
+                                isSale:this.ruleForm.isSale,
+                                desc:this.ruleForm.desc
+                            };
+                            //console.log(params.classify,params.goodsname,params.goodsprice);
+
+                            $.post('/goods/addgoods',params,(data) => {
+                                console.log(data);
+                            })
+                        } else {
+                            console.log('error submit!!');
+                            return false;
+                        }
+                    });
+                },
+                resetForm(formName) {
+                    this.$refs[formName].resetFields();
+                }
+            }
+
+        })
+
+
+
+    </script>
+</body>
+
+</html>
+                        
+
+           

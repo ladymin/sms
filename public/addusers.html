@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>华联超市管理系统</title>
+    <!-- 引入juquery.js -->
+    <script src="./libs/jquery/jquery.min.js"></script>
+    <!-- 引入组件样式 -->
+    <link rel="stylesheet" href="./libs/elementui/styles/elementui.min.css">
+    <!-- 引入自定义的样式 -->
+    <link rel="stylesheet" href="./styles/index.css">
+
+    <!-- 引入vue.min.js -->
+    <script src="./libs/vue/vue.min.js"></script>
+    <!-- 引入elementui.min.js -->
+    <script src="./libs/elementui/scripts/elementui.min.js"></script>
+</head>
+
+<body>
+    <!-- 准备dom -->
+    <div id="app">
+        <!-- 布局容器 -->
+        <el-container>      
+            <!-- 右侧内容 -->
+            <el-container>
+                <!-- 右侧头部 -->
+                <el-header>
+                    <h2>欢迎您 admin</h2>
+                    <p>添加管理员账号</p>
+                </el-header>
+                <!-- 右侧主体 -->
+                <el-main>
+                    <!-- 卡片布局 -->
+                    <el-card class="box-card">
+                        <div slot="header" class="clearfix">
+                            <span>添加管理员账号</span>
+                        </div>
+                        <div class="text item">
+                            <!-- 注册账户信息 -->
+                            <el-form :model="ruleForm" class="add-users-form" status-icon :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+                                <el-form-item label="用户名" prop="username">
+                                    <el-input type="text" v-model="ruleForm.username" autocomplete="off"></el-input>
+                                </el-form-item>
+                                <el-form-item label="密&emsp;码" prop="password">
+                                    <el-input type="text" v-model="ruleForm.password" autocomplete="off"></el-input>
+                                </el-form-item>
+                                <el-form-item label="确认密码" prop="confirmpassword">
+                                    <el-input type="text" v-model.number="ruleForm.confirmpassword"></el-input>
+                                </el-form-item>
+                                <!-- 选择分组 -->
+                                <el-form-item label="选择用户组" prop="usergroup">
+                                    <el-select v-model="ruleForm.usergroup" placeholder="选择用户组">
+                                        <el-option label="普通用户" value="普通用户"></el-option>
+                                        <el-option label="超级VIP" value="超级vip"></el-option>
+                                    </el-select>
+                                </el-form-item>
+                                <el-form-item>
+                                    <el-button type="primary" @click="submitForm('ruleForm')">添加</el-button>
+                                    <el-button @click="resetForm('ruleForm')">重置</el-button>
+                                </el-form-item>
+                            </el-form>
+
+                        </div>
+                    </el-card>
+                </el-main>
+
+                <!-- 右侧尾部 -->
+                <el-footer>
+                    &copy;Copyright 2018 华联超市管理系统
+                </el-footer>
+            </el-container>
+        </el-container>
+    </div>
+
+    <script>
+        // 创建vue实例
+        new Vue({
+            el: '#app',
+            data() {
+                // 自定义验证两次密码的一致性
+                let checkPassword = (rule, value, callback) => {
+                    // 如果确认密码为空，则显示提示信息
+                    if (value === '') {
+                        callback(new Error('请再次输入密码'));
+                    } else if (value != this.ruleForm.password) {  // 如果两次输入的密码不一致，则显示提示信息
+                        callback(new Error('两次输入的密码不一致'));
+                    } else {
+                        callback();    //  输入正确
+                    }
+                }
+                return {
+                    ruleForm: {
+                        username: '',
+                        password: '',
+                        confirmpassword: '',
+                        usergroup:''
+                    },
+                    rules: {
+                        username: [
+                            { required: true, message: '请输入用户名！', trigger: 'blur' },  // 非空验证
+                            { min: 5, max: 16, message: '字符长度必须为5-16位', trigger: 'blur' }    // 字符长度的验证
+                        ],
+                        password: [
+                            { required: true, message: '请输入密码！', trigger: 'blur' },  // 非空验证
+                            { min: 6, max: 18, message: '密码必须为6-18位', trigger: 'blur' }    // 密码长度的验证
+
+                        ],
+                        confirmpassword: [
+                            { required: true, validator: checkPassword, trigger: 'blur' }
+                        ],
+                        usergroup:[
+                            {required:true,message:'请至少选择一项分组',trigger:'change'}
+                        ]
+                    }
+                };
+            },
+            methods: {
+                submitForm(formName) {
+                    this.$refs[formName].validate((valid) => {
+                        if (valid) {    // 如果valid为true，则表示前端验证通过，可以通过ajax方式向后台发送数据
+                            // alert('前端验证通过!' + '用户名：' + this.ruleForm.username + '密码为：' + this.ruleForm.password);
+                         // console.log('查看用户传入的数据',this.ruleForm.username,this.ruleForm.password,this.ruleForm.choosegroup);
+                        // 定义一个对象变量来保存传入的参数
+                        const params = {
+                            username:this.ruleForm.username,
+                            password:this.ruleForm.password,
+                            usergroup:this.ruleForm.usergroup
+                        }
+                        // 发送ajax
+                        $.post('/users/addusers',params,(data) => {
+                            // 如果成功，弹出对应的提示消息，并且跳转到用户列表页面
+                           if(data.errcode === 1){
+                               alert(data.msg);
+                            // 跳转到用户列表页面
+                            location.href ='./userslist.html';
+                           }else{       //  如果失败，则弹出添加失败的信息
+                            alert(data.msg);
+                               
+                           }
+                              
+                           
+                        })
+                        } else {
+                            console.log('error submit!!');
+                            return false;
+                        }
+                    });
+                },
+                resetForm(formName) {
+                    this.$refs[formName].resetFields();
+                }
+            }
+        })
+
+
+
+    </script>
+</body>
+
+</html>
